@@ -18,7 +18,9 @@ const PORT = 5001; // サーバーを動かすポート番号（ここでは 500
 app.use(cors()); // CORS（Cross-Origin Resource Sharing）を許可するための設定。
 app.use(express.json()); // expressアプリケーションでJSONを扱うための設定。
 
-// JSONPlaceholder API からデータ取得
+/*
+ * エンドポイントの設定
+ */
 app.get('/api/posts', async (req, res) => {
 	try {
 		const response = await axios.get(
