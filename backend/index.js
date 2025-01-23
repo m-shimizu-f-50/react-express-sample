@@ -21,6 +21,7 @@ app.use(express.json()); // expressアプリケーションでJSONを扱うた�
 /*
  * エンドポイントの設定
  */
+// 一覧取得
 app.get('/api/posts', async (req, res) => {
 	try {
 		const response = await axios.get(
@@ -29,6 +30,20 @@ app.get('/api/posts', async (req, res) => {
 		res.json(response.data);
 	} catch (error) {
 		res.status(500).json({ error: error.message });
+	}
+});
+
+// 詳細取得
+app.get('/api/posts/:id', async (req, res) => {
+	try {
+		const { id } = req.params;
+		const response = await axios.get(
+			`https://jsonplaceholder.typicode.com/posts/${id}`
+		);
+		res.json(response.data);
+	} catch (error) {
+		console.error('Error fetching post:', error);
+		res.status(500).json({ message: 'Error fetching post' });
 	}
 });
 

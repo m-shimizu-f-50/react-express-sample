@@ -5,6 +5,8 @@ import axios from 'axios';
 export default function Home() {
 	const [posts, setPosts] = useState([]);
 
+	// 例： SPA(CSR)開発の場合のAPIリクエスト(axios,userEffect)
+	//
 	useEffect(() => {
 		axios
 			.get('http://localhost:5001/api/posts')
