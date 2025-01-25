@@ -1,6 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+/*
+ * 従来のReduxの書き方
+ */
 // API からデータを取得する非同期アクション
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
 	const response = await axios.get('http://localhost:5001/api/posts');
