@@ -47,5 +47,25 @@ app.get('/api/posts/:id', async (req, res) => {
 	}
 });
 
+// 削除
+app.delete('/api/posts/:id', async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		// jsonplaceholder.typicode.com は DELETE してもデータは実際には消えないが、成功レスポンスが返る
+		const response = await axios.delete(
+			`https://jsonplaceholder.typicode.com/posts/${id}`
+		);
+
+		// jsonplaceholder は `204 No Content` を返すため、成功したことを伝える
+		// ネットワークタブで確認し、204が返ってきていれば成功
+		// 本来はデータベースから削除する処理を書く
+		res.status(204).send();
+	} catch (error) {
+		console.error('Error deleting post:', error);
+		res.status(500).json({ message: 'Error deleting post' });
+	}
+});
+
 // サーバーを起動
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

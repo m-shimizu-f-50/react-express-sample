@@ -13,8 +13,30 @@ export const apiSlice = createApi({
 		getPostById: builder.query({
 			query: (id) => `/posts/${id}`, // GET /api/posts/:id
 		}),
+		updatePost: builder.mutation({
+			queryFn: async ({ id, title }, { getState }) => {
+				const posts = getState().api.queries['getPosts(undefined)']?.data || [];
+				return {
+					data: posts.map((post) =>
+						post.id === id ? { ...post, title } : post
+					),
+				};
+			},
+		}),
+		deletePost: builder.mutation({
+			query: (id) => ({
+				url: `/posts/${id}`,
+				method: 'DELETE',
+			}), // DELETE /api/posts/:id
+			invalidatesTags: ['Posts'], // 削除後にキャッシュを無効化してリストを更新
+		}),
 	}),
 });
 
-export const { useGetPostsQuery, useGetPostByIdQuery } = apiSlice;
+export const {
+	useGetPostsQuery,
+	useGetPostByIdQuery,
+	useUpdatePostMutation,
+	useDeletePostMutation,
+} = apiSlice;
 export default apiSlice;

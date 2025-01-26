@@ -7,6 +7,8 @@ import { fetchPosts } from '../store/postsSlice';
 // RTK Queryを利用したAPIリクエスト
 import { useGetPostsQuery } from '../store/apiSlice';
 
+import PostList from '../components/PostList';
+
 export default function Home() {
 	/*
 	 * 例： SPA(CSR)開発の場合のAPIリクエスト(axios,userEffect)
@@ -41,10 +43,8 @@ export default function Home() {
 
 	return (
 		<div className='min-h-screen bg-gray-100 p-5'>
-			<h1 className='text-2xl font-bold text-center mb-5'>投稿一覧</h1>
-			<div className='max-w-4xl mx-auto bg-white p-5 rounded shadow'>
-				{/* 従来のRedux */}
-				{/* {status !== 'succeeded'
+			{/* 従来のRedux */}
+			{/* {status !== 'succeeded'
 					? statusMessages[status] || (
 							<p className='text-center'>不明な状態です</p>
 					  )
@@ -58,9 +58,9 @@ export default function Home() {
 							</Link>
 					  ))} */}
 
-				{/* RTK Query */}
-				{/* 状態管理を簡潔にする */}
-				{isLoading && (
+			{/* RTK Query */}
+			{/* 状態管理を簡潔にする */}
+			{/* {isLoading && (
 					<p className='text-center text-gray-500'>データを取得中...</p>
 				)}
 				{error && (
@@ -76,8 +76,10 @@ export default function Home() {
 								<h2 className='text-lg font-semibold'>{post.title}</h2>
 							</Link>
 					  ))
-					: null}
-			</div>
+					: null} */}
+
+			{/* 上記をコンポーネント化 */}
+			<PostList />
 		</div>
 	);
 }
