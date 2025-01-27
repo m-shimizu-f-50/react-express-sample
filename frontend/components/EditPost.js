@@ -4,6 +4,7 @@ import {
 	useDeletePostMutation,
 } from '../store/apiSlice';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 export default function EditPost({ post }) {
 	const [title, setTitle] = useState(post.title);
@@ -13,7 +14,22 @@ export default function EditPost({ post }) {
 
 	// 更新処理
 	const handleUpdate = async () => {
-		await updatePost({ id: post.id, title });
+		// await updatePost({ id: post.id, title });
+		try {
+			await updatePost({ id: post.id, title }).unwrap();
+			toast.success('投稿を更新しました！');
+		} catch (error) {
+			toast.error('更新に失敗しました');
+		}
+	};
+
+	const handleDelete = async (id) => {
+		try {
+			await deletePost(id).unwrap();
+			toast.success('投稿を削除しました！');
+		} catch (error) {
+			toast.error('削除に失敗しました');
+		}
 	};
 
 	// 詳細画面へ遷移
@@ -37,7 +53,7 @@ export default function EditPost({ post }) {
 					更新
 				</button>
 				<button
-					onClick={() => deletePost(post.id)}
+					onClick={() => handleDelete(post.id)}
 					className='bg-red-500 text-white px-4 py-2 rounded'
 				>
 					削除

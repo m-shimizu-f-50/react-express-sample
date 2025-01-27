@@ -28,7 +28,10 @@
 		"**/*.tsx",
 		".next/types/**/*.ts",
 		"components/PostList.js",
-		"components/EditPost.js"
+		"components/EditPost.js",
+		"pages/posts/[id].js",
+		"pages/index.js",
+		"pages/_app.js"
 	],
 	"exclude": ["node_modules"]
 }
