@@ -39,7 +39,7 @@ export default function Home() {
 	/*
 	 * Redux Toolkit Query 例： ReduxのRTK Queryを利用したAPIリクエスト(useGetPostsQuery)
 	 */
-	const { data: posts, error, isLoading } = useGetPostsQuery();
+	// const { data: posts, error, isLoading } = useGetPostsQuery();
 
 	return (
 		<div className='min-h-screen bg-gray-100 p-5'>
