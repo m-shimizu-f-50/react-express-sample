@@ -1,28 +1,12 @@
-import { useState } from 'react';
-import {
-	useUpdatePostMutation,
-	useDeletePostMutation,
-} from '../store/apiSlice';
+import { useDeletePostMutation } from '../store/apiSlice';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
 export default function EditPost({ post }) {
-	const [title, setTitle] = useState(post.title);
-	const [updatePost] = useUpdatePostMutation();
 	const [deletePost] = useDeletePostMutation();
 	const router = useRouter();
 
-	// 更新処理
-	const handleUpdate = async () => {
-		// await updatePost({ id: post.id, title });
-		try {
-			await updatePost({ id: post.id, title }).unwrap();
-			toast.success('投稿を更新しました！');
-		} catch (error) {
-			toast.error('更新に失敗しました');
-		}
-	};
-
+	// 削除処理
 	const handleDelete = async (id) => {
 		try {
 			await deletePost(id).unwrap();
@@ -38,31 +22,23 @@ export default function EditPost({ post }) {
 	};
 
 	return (
-		<div className='p-3 border'>
-			<input
-				type='text'
-				value={title}
-				onChange={(e) => setTitle(e.target.value)}
-				className='border p-2 rounded w-full'
-			/>
-			<div className='flex gap-2 mt-2'>
+		<div className='p-4 border rounded-lg shadow-md bg-white flex justify-between items-center'>
+			{/* タイトル */}
+			<h2 className='text-lg font-semibold text-gray-800'>{post.title}</h2>
+
+			{/* ボタン群 */}
+			<div className='flex space-x-3'>
 				<button
-					onClick={handleUpdate}
-					className='bg-blue-500 text-white px-4 py-2 rounded'
+					onClick={handleNavigate}
+					className='bg-gray-500 hover:bg-gray-600 text-white font-medium px-5 py-2 rounded-lg transition duration-300'
 				>
-					更新
+					詳細
 				</button>
 				<button
 					onClick={() => handleDelete(post.id)}
-					className='bg-red-500 text-white px-4 py-2 rounded'
+					className='bg-red-500 hover:bg-red-600 text-white font-medium px-5 py-2 rounded-lg transition duration-300'
 				>
 					削除
-				</button>
-				<button
-					onClick={handleNavigate}
-					className='bg-gray-500 text-white px-4 py-2 rounded'
-				>
-					詳細
 				</button>
 			</div>
 		</div>
