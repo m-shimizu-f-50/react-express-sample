@@ -17,7 +17,6 @@ export const apiSlice = createApi({
 		}),
 		updatePost: builder.mutation({
 			queryFn: async ({ id, title }, { getState }) => {
-				console.log('更新', id, title);
 				const posts = getState().api.queries['getPosts(undefined)']?.data || [];
 				return {
 					data: posts.map((post) =>
