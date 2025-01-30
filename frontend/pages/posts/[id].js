@@ -7,7 +7,7 @@ import { useUpdatePostMutation } from '../../store/apiSlice';
 //例： SSRの場合のAPIリクエスト(getServerSideProps)
 export async function getServerSideProps({ params }) {
 	const { id } = params;
-	const response = await axios.get(`http://localhost:5001/api/posts/${id}`);
+	const response = await axios.get(`http://localhost:3001/posts/${id}`);
 	const post = response.data;
 
 	return {
@@ -19,7 +19,7 @@ export default function PostDetail({ post }) {
 	const router = useRouter();
 
 	const [title, setTitle] = useState(post.title);
-	const [body, setBody] = useState(post.body);
+	const [content, setContent] = useState(post.content);
 
 	// RTK Queryの更新ミューテーション
 	const [updatePost] = useUpdatePostMutation();
@@ -27,13 +27,13 @@ export default function PostDetail({ post }) {
 	// post の値が変更された場合に状態を更新
 	useEffect(() => {
 		setTitle(post.title);
-		setBody(post.body);
+		setContent(post.content);
 	}, [post]);
 
 	// 更新処理
 	const handleUpdate = async () => {
 		try {
-			await updatePost({ id: post.id, title, body }).unwrap();
+			await updatePost({ id: post.id, title, content }).unwrap();
 			toast.success('投稿を更新しました！');
 		} catch (error) {
 			toast.error('更新に失敗しました');
@@ -70,12 +70,12 @@ export default function PostDetail({ post }) {
 						<label className='w-24 text-lg font-semibold text-gray-700'>
 							内容：
 						</label>
-						<input
-							type='text'
-							value={body}
+						<textarea
+							value={content}
 							onChange={(e) => setBody(e.target.value)}
 							className='border border-gray-300 p-3 rounded-lg flex-grow focus:outline-none focus:ring-2 focus:ring-blue-400'
-						/>
+							rows='4'
+						></textarea>
 					</div>
 				</div>
 
