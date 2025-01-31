@@ -46,6 +46,34 @@ app.get('/posts/:id', async (req, res) => {
 	}
 });
 
+// **投稿を削除するAPI**
+app.delete('/posts/:id', async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		// IDを数値に変換
+		const parsedId = parseInt(id, 10);
+		if (isNaN(parsedId)) {
+			return res.status(400).json({ error: 'Invalid post ID' });
+		}
+
+		// 削除処理
+		const [result] = await db.query('DELETE FROM posts WHERE id = ?', [
+			parsedId,
+		]);
+
+		// 該当する投稿がなかった場合
+		if (result.affectedRows === 0) {
+			return res.status(404).json({ error: 'Post not found' });
+		}
+
+		// 削除成功
+		res.status(200).json({ message: 'Post deleted successfully' });
+	} catch (err) {
+		res.status(500).json({ error: err.message });
+	}
+});
+
 // **サーバーを起動**
 const PORT = 3001;
 app.listen(PORT, () => {
